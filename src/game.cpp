@@ -1,8 +1,27 @@
 #include "game.hpp"
+#include "physics.cpp"
 
 Game::Game(){
-    window.create(sf::VideoMode(800, 600), "Game of life");
+    int square_size = window_size / map_size;
+    paused = true;
+    
+    window.create(sf::VideoMode(window_size, window_size), "Game of life");
     window.setFramerateLimit(30);
+    int k = 0;
+    for (int i = 0; i < map_size; ++i) {
+        std::vector<sf::RectangleShape> line;
+        for (int j = 0; j < map_size; ++j) {
+            sf::RectangleShape sq(sf::Vector2f(square_size-1, square_size-1));
+            sq.setPosition(i * square_size, j * square_size);
+            line.push_back(sq);
+            k++;
+        }
+        squares.push_back(line);
+    }
+    std::vector<std::pair<int, int>> colored, last_colored;
+    colored.push_back(std::pair<int, int>(10, 10));
+
+    first_update();
 }
 
 void Game::run(){
@@ -11,8 +30,12 @@ void Game::run(){
         while(window.pollEvent(event)){
             switch(event.type){
                 case sf::Event::KeyPressed:
-                    if(event.key.code == sf::Keyboard::Space) pause();
-                    else if(!(event.key.code == sf::Keyboard::Escape)) break;
+                    if(event.key.code == sf::Keyboard::Space) {
+                        pause();
+                        break;
+                    } else if(!(event.key.code == sf::Keyboard::Escape)){
+                        break;
+                    }
                 case sf::Event::Closed:
                     window.close();
                     break;
@@ -21,25 +44,52 @@ void Game::run(){
                 default: break;
             }
         }
+        color_squares();
         update();
     }
 }
 
-void Game::update() {
-    window.clear(sf::Color(240, 240, 240));
-
-    for(auto line : squares) {
-        for(sf::Sprite& sprite : line) {
-            window.draw(sprite);
+void Game::first_update() {
+    window.clear(sf::Color(100, 100, 100));
+    int k = 0;
+    for(int i = 0; i < map_size; ++i) {
+        for(int j = 0; j < map_size; ++j) {
+            window.draw(squares[i][j]); k++;
         }
+    }
+}
+
+void Game::update() {
+    for(auto p : last_colored) {
+        window.draw(squares[p.first][p.second]);
+    }
+    for(auto p : colored) {
+        window.draw(squares[p.first][p.second]);
     }
     window.display();
 }
 
-void Game::pause() {}
+void Game::pause() {
+    paused = ! paused;
+}
 
-void Game::handle_mouse_click(){
+void Game::handle_mouse_click() {
     sf::Vector2i mouse_pos = sf::Mouse::getPosition(window);
-    // ...
-    // check 
+    std::cout << "Clicked " << mouse_pos.x << " " << mouse_pos.y << std::endl;
+    int square_size = window_size / map_size;
+    colored.push_back(std::pair<int, int>(mouse_pos.x / square_size, mouse_pos.y / square_size));
+}
+
+void Game::color_squares() {
+    if (!paused) {
+        std::cout << "Update" << std::endl;
+        auto last_colored(colored);
+        colored = simulate(colored);
+        for(auto p : last_colored) {
+            squares[p.first][p.second].setFillColor(sf::Color::White);
+        }
+    }
+    for(auto p : colored) {
+        squares[p.first][p.second].setFillColor(sf::Color::Black);
+    }
 }
