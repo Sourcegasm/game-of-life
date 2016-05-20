@@ -1,5 +1,4 @@
 #include "game.hpp"
-#include "physics.cpp"
 
 Game::Game(){
     int square_size = window_size / map_size;
@@ -11,7 +10,7 @@ Game::Game(){
 
     int k = 0;
     for (int i = 0; i < map_size; ++i) {
-        std::vector<bool> field_line(80, false);
+        std::vector<bool> field_line(map_size, false);
         field.push_back(field_line);
 
         std::vector<sf::RectangleShape> line;
@@ -68,7 +67,7 @@ void Game::update() {
     }
 
     if (!paused) {
-        field = simulate(field);
+        field = simulate(field, map_size);
     }
 
     for (int y = 0; y < 80; ++y) {

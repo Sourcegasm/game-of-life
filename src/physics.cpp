@@ -1,14 +1,14 @@
 #include "physics.hpp"
 
-std::vector<std::vector<bool>> simulate(const std::vector<std::vector<bool>>& field) {
+std::vector<std::vector<bool>> simulate(const std::vector<std::vector<bool>>& field, int map_size) {
     std::vector<std::vector<bool>> result;
-    for (int i = 0; i < 80; ++i) {
-        std::vector<bool> line(80, false);
+    for (int i = 0; i < map_size; ++i) {
+        std::vector<bool> line(map_size, false);
         result.push_back(line);
     }
 
-    for (int y = 0; y < 80; ++y) {
-        for (int x = 0; x < 80; ++x) {
+    for (int y = 0; y < map_size; ++y) {
+        for (int x = 0; x < map_size; ++x) {
             int x1 = x - 1;
             int y1 = y - 1;
 
