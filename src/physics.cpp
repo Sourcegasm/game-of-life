@@ -1,6 +1,6 @@
 #include "physics.hpp"
 
-std::vector<std::pair<int, int>>& simulate(std::vector<std::pair<int, int>>& colored) {
+std::vector<std::vector<bool>> simulate(const std::vector<std::vector<bool>>& field) {
 	// ...
-	return colored;
+	return field;
 }
