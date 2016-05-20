@@ -27,17 +27,16 @@ Game::Game(){
 }
 
 void Game::run() {
-    double timeDelta = 0;
-    const double time = 1000.0 / 30.0;
-    auto previousTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
+    double time_delta = 0;
+    auto previous_time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
 
 
     while(window.isOpen()){
         auto now = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
-        timeDelta += now.count() - previousTime.count();
-        previousTime = now;
+        time_delta += now.count() - previous_time.count();
+        previous_time = now;
 
-        while (timeDelta > time) {
+        while (time_delta > ups) {
             update();
 
             sf::Event event;
@@ -56,7 +55,7 @@ void Game::run() {
 
             }
 
-            timeDelta -= time;
+            time_delta -= ups;
         }
 
         render();
@@ -85,11 +84,15 @@ void Game::update() {
 
 void Game::pause() {
     paused = !paused;
+    if (paused) {
+        ups = 1000.0 / 60.0;
+    } else {
+        ups = 1000.0 / 5.0;
+    }
 }
 
 void Game::handle_mouse_click() {
     sf::Vector2i mouse_pos = sf::Mouse::getPosition(window);
-    std::cout << "Clicked " << mouse_pos.x << " " << mouse_pos.y << std::endl;
     int square_size = window_size / map_size;
     int y = mouse_pos.x / square_size;
     int x = mouse_pos.y / square_size;

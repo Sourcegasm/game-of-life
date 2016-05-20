@@ -13,8 +13,9 @@
 class Game {
   private:
   	bool paused;
-    int map_size = 80;
-    unsigned int window_size = 800;
+    const int map_size = 80;
+    const unsigned int window_size = 800;
+    double ups = 1000.0 / 60.0;
 
     sf::RenderWindow window;
     std::vector<std::vector<bool>> field;
