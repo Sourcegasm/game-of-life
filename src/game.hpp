@@ -15,7 +15,7 @@
 class Game {
   private:
   	bool paused;
-    const int map_size = 80;
+    const int map_size = 50;
     const int square_size = 15;
     double ups = 1000.0 / 60.0;
 

@@ -39,7 +39,7 @@ std::vector<std::vector<bool>> simulate(const std::vector<std::vector<bool>>& fi
             int live_neighbors = 0;
 
             for (int i = 0; i < 8; ++i) {
-                if (xs[i] < 0 || xs[i] >= 80 || ys[i] < 0 || ys[i] >= 80) {
+                if (xs[i] < 0 || xs[i] >= map_size || ys[i] < 0 || ys[i] >= map_size) {
                     continue;
                 }
 

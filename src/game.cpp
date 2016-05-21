@@ -101,7 +101,7 @@ void Game::handle_mouse_click(bool color) {
     std::pair<int, int> current_mouse_pos = {x, y};
 
     if (previous_mouse_pos != current_mouse_pos) {
-        if (y >= 0 && y < 80 && x >= 0 && x < 80) {
+        if (y >= 0 && y < map_size && x >= 0 && x < map_size) {
             field[y][x] = color;
         }
     }
