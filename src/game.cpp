@@ -1,9 +1,10 @@
 #include "game.hpp"
 
 Game::Game(){
-    int square_size = window_size / map_size;
     paused = true;
-    
+
+    unsigned int window_size = square_size * map_size;
+
     window.create(sf::VideoMode(window_size, window_size), "Game of life");
     window.setVerticalSyncEnabled(true);
     window.setFramerateLimit(60);
@@ -48,8 +49,6 @@ void Game::run() {
                     } else if(event.key.code == sf::Keyboard::Escape) {
                         window.close();
                     }
-                } else if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left && paused) {
-                    handle_mouse_click();
                 }
 
             }
@@ -62,16 +61,20 @@ void Game::run() {
 }
 
 void Game::update() {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-        window.close();
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && paused) {
+        handle_mouse_click(true);
+    }
+
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Right) && paused) {
+        handle_mouse_click(false);
     }
 
     if (!paused) {
         field = simulate(field, map_size);
     }
 
-    for (int y = 0; y < 80; ++y) {
-        for (int x = 0; x < 80; ++x) {
+    for (int y = 0; y < map_size; ++y) {
+        for (int x = 0; x < map_size; ++x) {
             if (field[y][x]) {
                 squares[y][x].setFillColor(sf::Color::Black);
             } else {
@@ -90,15 +93,20 @@ void Game::pause() {
     }
 }
 
-void Game::handle_mouse_click() {
+void Game::handle_mouse_click(bool color) {
     sf::Vector2i mouse_pos = sf::Mouse::getPosition(window);
-    int square_size = window_size / map_size;
     int y = mouse_pos.x / square_size;
     int x = mouse_pos.y / square_size;
 
-    if (y >= 0 && y < 80 && x >= 0 && x < 80) {
-        field[y][x] = !field[y][x];
+    std::pair<int, int> current_mouse_pos = {x, y};
+
+    if (previous_mouse_pos != current_mouse_pos) {
+        if (y >= 0 && y < 80 && x >= 0 && x < 80) {
+            field[y][x] = color;
+        }
     }
+
+    previous_mouse_pos = current_mouse_pos;
 }
 
 void Game::render() {
