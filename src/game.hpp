@@ -14,7 +14,7 @@
 
 class Game {
   private:
-  	bool paused;
+    bool paused;
     const int map_size = 50;
     const int square_size = 15;
     double ups = 1000.0 / 60.0;
@@ -22,7 +22,6 @@ class Game {
     sf::RenderWindow window;
     std::vector<std::vector<bool>> field;
     std::vector<std::vector<sf::RectangleShape>> squares;
-    std::pair<int, int> previous_mouse_pos;
     void render();
     void handle_mouse_click(bool color);
     void update();

@@ -1,5 +1,5 @@
 # Game of Life
-Game of Life written in c++.
+Game of Life written in C++.
 
 # Dependencies
 
@@ -9,10 +9,10 @@ Game of Life written in c++.
 
 From the root directory of this repository run:
 ```
-$ mkdir build; cd build
-$ cmake ..
-$ make
-$ ../bin/Game_of_Life
+mkdir build; cd build
+cmake ..
+make
+../bin/Game_of_Life
 ```
 
 # License

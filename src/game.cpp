@@ -28,11 +28,12 @@ Game::Game(){
 
 void Game::run() {
     double time_delta = 0;
-    auto previous_time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
-
+    auto previous_time = std::chrono::duration_cast<std::chrono::milliseconds>(
+                            std::chrono::system_clock::now().time_since_epoch());
 
     while(window.isOpen()){
-        auto now = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
+        auto now = std::chrono::duration_cast<std::chrono::milliseconds>(
+                        std::chrono::system_clock::now().time_since_epoch());
         time_delta += now.count() - previous_time.count();
         previous_time = now;
 
@@ -98,15 +99,9 @@ void Game::handle_mouse_click(bool color) {
     int y = mouse_pos.x / square_size;
     int x = mouse_pos.y / square_size;
 
-    std::pair<int, int> current_mouse_pos = {x, y};
-
-    if (previous_mouse_pos != current_mouse_pos) {
-        if (y >= 0 && y < map_size && x >= 0 && x < map_size) {
-            field[y][x] = color;
-        }
+    if (y >= 0 && y < map_size && x >= 0 && x < map_size) {
+        field[y][x] = color;
     }
-
-    previous_mouse_pos = current_mouse_pos;
 }
 
 void Game::render() {
