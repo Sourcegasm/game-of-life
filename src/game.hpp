@@ -15,8 +15,8 @@
 class Game {
   private:
     bool paused;
-    const int map_size = 50;
-    const int square_size = 15;
+    const int map_size_x = 80, map_size_y = 45;
+    const int square_size = 16;
     double ups = 1000.0 / 60.0;
 
     sf::RenderWindow window;
