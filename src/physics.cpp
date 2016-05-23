@@ -1,7 +1,7 @@
 #include "physics.hpp"
 
 std::vector<std::vector<bool>> simulate(const std::vector<std::vector<bool>>& field,
-                                                    int map_size_x, int map_size_y) {
+                                        int map_size_x, int map_size_y) {
     std::vector<std::vector<bool>> result;
     for (int i = 0; i < map_size_y; ++i) {
         std::vector<bool> line(map_size_x, false);
